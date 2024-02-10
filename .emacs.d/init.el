@@ -38,9 +38,6 @@
 (setopt auto-revert-check-vc-info t)
 (global-auto-revert-mode)
 
-;; Move b/w windows wit Ctrl-<arrow keys>
-(windmove-default-keybindings 'control)
-
 ;; Some typewrite nonsense that moved to emacs for some reason??
 (setopt sentence-end-double-space nil)
 
@@ -116,9 +113,6 @@ If the new path's directories does not exist, create them."
 ;; Show buffer boundaries in fringe
 (setopt indicate-buffer-boundaries 'left)
 
-;; I prefer bar cursors
-(setq-default cursor-type 'bar)
-
 ;; Set "esc" to cancel
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
@@ -127,9 +121,6 @@ If the new path's directories does not exist, create them."
 
 ;; Better scrolling
 (pixel-scroll-precision-mode)
-
-;; Setup common editing shortcuts
-(cua-mode)
 
 ;; Display line numbers in prog-mode
 ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -150,6 +141,10 @@ If the new path's directories does not exist, create them."
 (setopt display-time-format "%a %F %T")
 (setopt display-time-interval 1)
 (display-time-mode)
+
+;; Ripgrep for very fast searching
+(use-package rg
+  :ensure t)
 
 ;;- Theme ----------------------------------------------------------------------
 
@@ -179,6 +174,51 @@ If the new path's directories does not exist, create them."
   (load-theme current-theme t))
 
 (global-set-key (kbd "C-c t") 'toggle-theme)
+
+;;- Keybinding Setup -----------------------------------------------------------
+(defmacro define-leader-menu (name infix-key &rest body)
+  (declare (indent 2))
+  `(progn
+     (general-create-definer ,(intern (concat name "-leader"))
+       :wrapping global-leader
+       :prefix-map (quote ,(intern (concat name "-leader-map")))
+       :infix ,infix-key
+       :wk-full-keys nil
+       "" '(:ignore t :which-key ,name))
+     (,(intern (concat name "-leader"))
+      ,@body)))
+
+(use-package general
+  :ensure t
+  :config
+  (general-evil-setup)
+
+  (general-create-definer global-leader
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC"
+    :global-prefix "C-SPC")
+
+  (global-leader
+   "!" 'shell-command))
+
+(define-leader-menu "buffer" "b"
+  "d" 'kill-current-buffer
+  "b" 'consult-buffer)
+
+(define-leader-menu "file" "f"
+  "f" 'find-file
+  "s" '((lambda () (interactive) 'save-file)
+	:which-key "save-file"))
+
+(define-leader-menu "theme" "t"
+  "t" 'toggle-theme
+  "l" 'load-theme)
+
+(define-leader-menu "avy" "a"
+  "l" 'avy-goto-line
+  "c" 'avy-goto-char
+  "w" 'avy-goto-word-1)
 
 ;;- Modeline -------------------------------------------------------------------
 
@@ -224,7 +264,6 @@ If the new path's directories does not exist, create them."
   :config
   (auto-olivetti-mode))
 
-
 ;;- Dashboard ------------------------------------------------------------------
 
 (use-package dashboard
@@ -249,4 +288,5 @@ If the new path's directories does not exist, create them."
 ;; Packages for software development
 (load-file (expand-file-name "extras/dev.el" user-emacs-directory))
 
-
+;; Evil Mode
+(load-file (expand-file-name "extras/vim.el" user-emacs-directory))

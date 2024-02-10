@@ -6,32 +6,13 @@
 
 (use-package avy
   :ensure t
-  :demand t
-  :bind (("C-c j" . avy-got-line)
-	 ("s-j"   . avy-goto-char-timer)))
+  :demand t)
 
 ;;- Enhanced commands with `consult' -------------------------------------------
 
 ;; TODO look up consult
 (use-package consult
   :ensure t
-  :bind (
-         ;; Drop-in replacements
-         ("C-x b" . consult-buffer)     ; orig. switch-to-buffer
-         ("M-y"   . consult-yank-pop)   ; orig. yank-pop
-         ;; Searching
-         ("M-s r" . consult-ripgrep)
-         ("C-s"   . consult-line)       ; Alternative: rebind C-s to use
-         ("M-s s" . isearch)  ; consult-line instead of isearch, bind
-         ("M-s L" . consult-line-multi) ; isearch to M-s s
-         ("M-s o" . consult-outline)
-         ;; Isearch integration
-         :map isearch-mode-map
-         ("M-e"   . consult-isearch-history)   ; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
-         ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
-         )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<"))

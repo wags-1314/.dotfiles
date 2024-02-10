@@ -23,18 +23,17 @@
 ;;- Version Control ------------------------------------------------------------
 
 (use-package magit
-  :ensure t
-  :bind (("C-x g" . magit-status)))
+  :ensure t)
+
+(define-leader-menu "magit" "g"
+  "s" 'magit-status)
 
 ;;- Project Management ---------------------------------------------------------
 
 (use-package projectile
   :ensure t
   :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
+  (projectile-mode +1))
 
 (add-hook 'olivetti-mode-on-hook (lambda () (olivetti-set-width 74)))
 

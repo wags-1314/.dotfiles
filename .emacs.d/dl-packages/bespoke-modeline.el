@@ -105,17 +105,17 @@ Modeline is composed as:
   :group 'bespoke-modeline-active)
 
 (defface bespoke-modeline-active-status-RO
-  '((t (:inherit default :background "yellow" :box (:line-width 2 :color "yellow" :style nil))))
+  '((t (:inherit default :background "#B58900" :box (:line-width 2 :color "#B58900" :style nil))))
   "Modeline face for active READ-ONLY element"
   :group 'bespoke-modeline-active)
 
 (defface bespoke-modeline-active-status-RW
-  '((t (:inherit default :background "green" (:line-width 2 :color "green" :style nil))))
+  '((t (:inherit default :background "#859900" (:line-width 2 :color "#859900" :style nil))))
   "Modeline face for active READ-WRITE element"
   :group 'bespoke-modeline-active)
 
 (defface bespoke-modeline-active-status-**
-  '((t (:inherit default :background "red" (:line-width 2 :color "red" :style nil))))
+  '((t (:inherit default :background "#DC322F" (:line-width 2 :color "#DC322F" :style nil))))
   "Modeline face for active MODIFIED element"
   :group 'bespoke-modeline-active)
 
