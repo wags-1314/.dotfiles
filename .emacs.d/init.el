@@ -38,6 +38,8 @@
 (setopt auto-revert-check-vc-info t)
 (global-auto-revert-mode)
 
+(setopt evil-want-C-u-scroll t)
+
 ;; Some typewrite nonsense that moved to emacs for some reason??
 (setopt sentence-end-double-space nil)
 
@@ -148,6 +150,10 @@ If the new path's directories does not exist, create them."
 
 ;;- Theme ----------------------------------------------------------------------
 
+(defvar light-theme 'doom-solarized-light)
+(defvar dark-theme 'doom-solarized-dark)
+(defvar current-theme dark-theme)
+
 (use-package doom-themes
   :ensure t
   :config
@@ -156,14 +162,10 @@ If the new path's directories does not exist, create them."
   (setq doom-themes-enable-italic t)
   
   ;; Set the default theme
-  (load-theme 'doom-solarized-light t)
+  (load-theme current-theme t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config))
-
-(defvar light-theme 'doom-solarized-light)
-(defvar dark-theme 'doom-solarized-dark)
-(defvar current-theme light-theme)
 
 (defun toggle-theme ()
   "Toggle between light and dark themes."
@@ -200,25 +202,55 @@ If the new path's directories does not exist, create them."
     :global-prefix "C-SPC")
 
   (global-leader
-   "!" 'shell-command))
+    "!" 'shell-command
+    "'" '(vterm-toggle :which-key "terminal")
+    "b" '(hydra-buffer/body :which-key "buffer")
+    "f" '(hydra-file/body :which-key "file")
+    "t" '(hydra-theme/body :which-key "theme")
+    "a" '(hydra-avy/body :which-key "avy")
+    "w" '(hydra-window/body :which-key "window")
+    "p" '(hydra-project/body :which-key "project"))) 
 
-(define-leader-menu "buffer" "b"
-  "d" 'kill-current-buffer
-  "b" 'consult-buffer)
+(use-package hydra
+  :ensure t)
 
-(define-leader-menu "file" "f"
-  "f" 'find-file
-  "s" '((lambda () (interactive) 'save-file)
-	:which-key "save-file"))
+(defhydra hydra-buffer (:color blue)
+  ("b" consult-buffer "open buffers")
+  ("d" kill-current-buffer "delete buffer"))
 
-(define-leader-menu "theme" "t"
-  "t" 'toggle-theme
-  "l" 'load-theme)
+(defhydra hydra-file (:color blue)
+  ("f" find-file "open file")
+  ("s" evil-save "save file"))
 
-(define-leader-menu "avy" "a"
-  "l" 'avy-goto-line
-  "c" 'avy-goto-char
-  "w" 'avy-goto-word-1)
+(defhydra hydra-theme (:color blue)
+  ("t" toggle-theme "toggle theme")
+  ("l" load-theme "load theme"))
+
+(defhydra hydra-avy (:color blue)
+  ("l" avy-goto-line "goto line")
+  ("w" avy-goto-word-1 "goto word"))
+
+(defhydra hydra-window (:color blue)
+  ("/" split-window-right "split window to right")
+  ("-" split-window-below "split window below")
+  ("<right>" windmove-right "move to right window" :color red)
+  ("<left>" windmove-left "move to left window" :color red)
+  ("<up>" windmove-up "move to up window" :color red)
+  ("<down>" windmove-down "move to down window" :color red))
+
+(defhydra hydra-project (:color blue)
+  ("p" projectile-switch-project "switch project")
+  ("'" projectile-run-vterm "open terminal")
+  ("s" projectile-ripgrep "search in project")
+  ("c" projectile-compile "compile project")
+  ("t" projectile-text "run project tests")
+  ("f" projectile-find-file "find file in project"))
+
+;;- vterm ----------------------------------------------------------------------
+(use-package vterm)
+
+(use-package vterm-toggle
+  :ensure t)
 
 ;;- Modeline -------------------------------------------------------------------
 

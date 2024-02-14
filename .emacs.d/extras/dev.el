@@ -61,7 +61,6 @@
 
 (use-package rust-mode
   :ensure t)
-
 ;;- LSP ------------------------------------------------------------------------
 
 (use-package eglot
