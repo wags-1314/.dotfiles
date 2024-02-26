@@ -12,7 +12,7 @@
  '(org-agenda-files
    '("/Users/bhargavkk/org/work.org" "/Users/bhargavkk/org/school.org"))
  '(package-selected-packages
-   '(hydra lsp-mode flycheck vundo evil-nerd-commenter vterm-toggle rg general org-modern org-super-agenda corfu embark consult vterm cargo-mode rust-mode evil jinx pandoc-mode olivetti yaml-mode which-key wgrep vertico solaire-mode racket-mode projectile orderless markdown-mode marginalia magit kind-icon json-mode embark-consult doom-themes dashboard corfu-terminal cape avy))
+   '(doom-modeline mood-line auctex hydra lsp-mode flycheck vundo evil-nerd-commenter vterm-toggle rg general org-modern org-super-agenda corfu embark consult vterm cargo-mode rust-mode evil jinx pandoc-mode olivetti yaml-mode which-key wgrep vertico solaire-mode racket-mode projectile orderless markdown-mode marginalia magit kind-icon json-mode embark-consult doom-themes dashboard corfu-terminal cape avy))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

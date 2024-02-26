@@ -52,6 +52,9 @@
 (use-package racket-mode
   :ensure t)
 
+(use-package auctex
+  :ensure t)
+
 (setopt racket-program "/Applications/Racket v8.11.1/bin/racket")
 
 (setopt c-default-style "linux")

@@ -150,8 +150,8 @@ If the new path's directories does not exist, create them."
 
 ;;- Theme ----------------------------------------------------------------------
 
-(defvar light-theme 'doom-solarized-light)
-(defvar dark-theme 'doom-solarized-dark)
+(defvar light-theme 'doom-nord-light)
+(defvar dark-theme 'doom-nord)
 (defvar current-theme dark-theme)
 
 (use-package doom-themes
@@ -269,11 +269,9 @@ If the new path's directories does not exist, create them."
 (load-file (expand-file-name "dl-packages/alloy-mode.el"
 			     user-emacs-directory))
 
-(use-package bespoke-modeline
-  :init
-  (setq bespoke-modeline-position 'bottom)
-  :config
-  (bespoke-modeline-mode))
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode))
 
 (use-package solaire-mode
   :ensure t
